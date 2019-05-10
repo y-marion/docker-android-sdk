@@ -1,5 +1,5 @@
 # Inspired from https://github.com/heikomaass/docker-android/blob/master/android-sdk/Dockerfile
-FROM node:12-stretch
+FROM node:8
 
 ARG DEBIAN_FRONTEND=noninteractive
 
