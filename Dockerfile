@@ -1,5 +1,5 @@
 # Inspired from https://github.com/heikomaass/docker-android/blob/master/android-sdk/Dockerfile
-FROM node:8
+FROM node:12-stretch
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -37,8 +37,16 @@ RUN curl -Lo yarn.tar.gz https://github.com/yarnpkg/yarn/releases/download/v${YA
     && tar -x -C /opt/yarn --strip-components=1 -f yarn.tar.gz \
     && rm yarn.tar.gz
 
+# Install gradle
+ENV GRADLE_VERSION=5.4.1
+ENV GRADLE_SHA256=14cd15fc8cc8705bd69dcfa3c8fefb27eb7027f5de4b47a8b279218f76895a91
+RUN curl -Lo gradle.zip https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip \
+    && echo "${GRADLE_SHA256} gradle.zip" | sha256sum -c \
+    && mkdir -p /opt/gradle \
+    && unzip -q -d /opt/gradle gradle.zip \
+    && rm gradle.zip
 
-ENV PATH /opt/yarn/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${PATH}
+ENV PATH /opt/yarn/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/gradle/gradle-${GRADLE_VERSION}/bin:${PATH}
 
 # Install Android SDK components
 RUN mkdir /root/.android \
