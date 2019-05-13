@@ -51,6 +51,7 @@ ENV PATH /opt/yarn/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:/opt/grad
 # Install Android SDK components
 RUN mkdir /root/.android \
   && touch /root/.android/repositories.cfg \
+  && yes | sdkmanager --licenses \
   && sdkmanager "tools" \
 		"platform-tools" \
 		"build-tools;27.0.3" \
